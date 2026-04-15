@@ -1,0 +1,219 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {},
+        "title": "1c-core-system-api",
+        "version": "1.0.0"
+    },
+    "host": "",
+    "basePath": "%7B%7Bserver-addres%7D%7D",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/{base-name}/hs/api/agreements/policy/add": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "base-name",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "policy": {
+                                    "properties": {
+                                        "accountTypeId": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentAgreementDate": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentAgreementNumber": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentCommissionAmount": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentConditionId": {
+                                            "example": "90d04d2b-1601-4a67-a223-b167ea98002d",
+                                            "type": "string"
+                                        },
+                                        "agentId": {
+                                            "example": "90d04d2b-1601-4a67-a229-b167ea98002d",
+                                            "type": "string"
+                                        },
+                                        "agentInn": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentLegalTypeId": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentName": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agentPinfl": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "agreementDate": {
+                                            "example": "2026-03-18",
+                                            "type": "string"
+                                        },
+                                        "agreementId": {
+                                            "example": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                            "type": "string"
+                                        },
+                                        "agreementNumber": {
+                                            "example": "PA/001/001/0000000499/26/04/1",
+                                            "type": "string"
+                                        },
+                                        "branchCode": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "branchId": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "clientId": {
+                                            "example": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c",
+                                            "type": "string"
+                                        },
+                                        "clientInn": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "clientLegalType": {
+                                            "example": 3,
+                                            "type": "number"
+                                        },
+                                        "clientName": {
+                                            "example": "Ivan214",
+                                            "type": "string"
+                                        },
+                                        "clientPinfl": {
+                                            "example": "12345678",
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "example": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                            "type": "string"
+                                        },
+                                        "insuranceViewName": {
+                                            "example": "ICL Insurance",
+                                            "type": "string"
+                                        },
+                                        "insuredAmount": {
+                                            "example": 2000000,
+                                            "type": "number"
+                                        },
+                                        "insuredAmountCurrencyCode": {
+                                            "example": "UZS",
+                                            "type": "string"
+                                        },
+                                        "oldAgreementId": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "oldPolicyId": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "paidAmount": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "paidAmountCurrencyCode": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "paidFromClientAccount": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "paymentMethodId": {
+                                            "example": 1,
+                                            "type": "number"
+                                        },
+                                        "policyDeliveryDate": {
+                                            "example": "2026-03-18",
+                                            "type": "string"
+                                        },
+                                        "policyEndDate": {
+                                            "example": "2028-06-28",
+                                            "type": "string"
+                                        },
+                                        "policyLastModifiedDate": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "policyNumber": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "policySeria": {
+                                            "example": null,
+                                            "x-nullable": true
+                                        },
+                                        "policySeries": {
+                                            "example": "00",
+                                            "type": "string"
+                                        },
+                                        "policyStartDate": {
+                                            "example": "2026-03-18",
+                                            "type": "string"
+                                        },
+                                        "premiumAmount": {
+                                            "example": 60000,
+                                            "type": "number"
+                                        },
+                                        "premiumAmountCurrencyCode": {
+                                            "example": "UZS",
+                                            "type": "string"
+                                        },
+                                        "productCode": {
+                                            "example": "PersonalAccident",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "transactionId": {
+                                    "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "description": "https://localhost/dev-buh-spect-makurin/hs/api/agreements/policy/add",
+                "operationId": "httpsLocalhostDevBuhSpectMakurinHsApiAgreementsPolicyAdd",
+                "summary": "https://localhost/dev-buh-spect-makurin/hs/api/agreements/policy/add"
+            }
+        }
+    },
+    "tags": []
+}
