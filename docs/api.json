@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "1c-core-system-api",
-        "version": "0.9.5",
+        "version": "0.9.8",
         "contact": {}
     },
     "servers": [
@@ -20,6 +20,518 @@
                 "example": "base-name",
                 "schema": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas": {
+            "AgreementRequest": {
+                "type": "object",
+                "description": "Объект, содержащий всю информацию по договору с клиентом",
+                "required": [
+                    "id",
+                    "agreementDate",
+                    "clientId"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор записи докумета (может быть равен agreementId в случае создания)",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "accountTypeId": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Идентификатор типа счета",
+                        "example": null
+                    },
+                    "agentAgreementDate": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true,
+                        "description": "Дата агентского договора",
+                        "example": null
+                    },
+                    "agentAgreementNumber": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Номер агентского договора",
+                        "example": null
+                    },
+                    "agentCommissionAmount": {
+                        "type": "number",
+                        "nullable": true,
+                        "description": "Сумма агентской комиссии",
+                        "example": null
+                    },
+                    "agentConditionId": {
+                        "type": "string",
+                        "description": "Идентификатор договора с агентом",
+                        "example": "90d04d2b-1601-4a67-a223-b167ea98002d"
+                    },
+                    "agentId": {
+                        "type": "string",
+                        "description": "Идентификатор агента",
+                        "example": "90d04d2b-1601-4a67-a229-b167ea98002d"
+                    },
+                    "agentInn": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ИНН агента",
+                        "example": null
+                    },
+                    "agentLegalTypeId": {
+                        "type": "number",
+                        "nullable": true,
+                        "description": "Тип лица агента (ФЛ, ЮЛ, ИП)",
+                        "example": null
+                    },
+                    "agentName": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Наименование или ФИО агента",
+                        "example": null
+                    },
+                    "agentPinfl": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ПИНФЛ агента",
+                        "example": null
+                    },
+                    "agreementDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата заключения договора",
+                        "example": "2026-03-18"
+                    },
+                    "agreementId": {
+                        "type": "string",
+                        "description": "Уникальный ID договора",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agreementNumber": {
+                        "type": "string",
+                        "description": "Номер договора",
+                        "example": "PA/001/001/0000000499/26/04/1"
+                    },
+                    "branchCode": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Код подразделения",
+                        "example": null
+                    },
+                    "branchId": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Идентификатор подразделения",
+                        "example": null
+                    },
+                    "cancelDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата аннулирования полиса",
+                        "example": "2028-06-28"
+                    },
+                    "clientId": {
+                        "type": "string",
+                        "description": "Идентификатор клиента",
+                        "example": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c"
+                    },
+                    "clientInn": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ИНН клиента",
+                        "example": null
+                    },
+                    "clientLegalType": {
+                        "type": "number",
+                        "description": "Тип лица клиента (например, 3 - физлицос ПИНФЛ)",
+                        "example": 3
+                    },
+                    "clientName": {
+                        "type": "string",
+                        "description": "ФИО или Наименование клиента",
+                        "example": "Ivan214"
+                    },
+                    "clientPinfl": {
+                        "type": "string",
+                        "description": "ПИНФЛ клиента",
+                        "example": "12345678"
+                    },
+                    "insuranceViewName": {
+                        "type": "string",
+                        "description": "Вид страхования (необходим для определения номенклатурнйо группы страхования)",
+                        "example": "ICL Insurance"
+                    },
+                    "insuredAmount": {
+                        "type": "number",
+                        "description": "Страховая сумма",
+                        "example": 2000000
+                    },
+                    "insuredAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты страховой суммы",
+                        "example": "UZS"
+                    },
+                    "oldAgreementId": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ID старого договора (при переносе задолженности)",
+                        "example": null
+                    },
+                    "oldPolicyId": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ID старого полиса (при переносе задолженности)",
+                        "example": null
+                    },
+                    "paidAmount": {
+                        "type": "number",
+                        "nullable": true,
+                        "description": "Сумма оплаты",
+                        "example": null
+                    },
+                    "paidAmountCurrencyCode": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Код валюты оплаты",
+                        "example": null
+                    },
+                    "paidFromClientAccount": {
+                        "type": "boolean",
+                        "nullable": true,
+                        "description": "Признак оплаты со счета клиента",
+                        "example": null
+                    },
+                    "paymentMethodId": {
+                        "type": "number",
+                        "description": "ID метода оплаты",
+                        "example": 1
+                    },
+                    "policyDeliveryDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата выдачи полиса (обычно равен agreementDate)",
+                        "example": "2026-03-18"
+                    },
+                    "policyEndDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата окончания действия полиса",
+                        "example": "2028-06-28"
+                    },
+                    "policyId": {
+                        "type": "string",
+                        "description": "Идентификатор полиса страхования",
+                        "example": "90d04d2b-1601-4a67-a229-b167ea9800ff"
+                    },
+                    "policyLastModifiedDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true,
+                        "description": "Дата последнего изменения",
+                        "example": null
+                    },
+                    "policyNumber": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Номер полиса",
+                        "example": null
+                    },
+                    "policySeries": {
+                        "type": "string",
+                        "description": "Серия полиса (серия полисов)",
+                        "example": "00"
+                    },
+                    "policyStartDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата начала действия полиса",
+                        "example": "2026-03-18"
+                    },
+                    "premiumAmount": {
+                        "type": "number",
+                        "description": "Сумма страховой премии",
+                        "example": 60000
+                    },
+                    "premiumAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты страховой премии",
+                        "example": "UZS"
+                    },
+                    "productCode": {
+                        "type": "string",
+                        "description": "Код страхового продукта",
+                        "example": "PersonalAccident"
+                    }
+                }
+            },
+            "PolicyRequest": {
+                "type": "object",
+                "description": "Объект, содержащий всю информацию по полису",
+                "required": [
+                    "id",
+                    "agreementId"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор полиса",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agreementId": {
+                        "type": "string",
+                        "description": "Уникальный ID договора",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agreementDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата заключения договора",
+                        "example": "2026-03-18",
+                        "nullable": true
+                    },
+                    "agreementNumber": {
+                        "type": "string",
+                        "description": "Номер договора",
+                        "example": "PA/001/001/0000000499/26/04/1",
+                        "nullable": true
+                    },
+                    "insuredAmount": {
+                        "type": "number",
+                        "description": "Страховая сумма",
+                        "example": 2000000
+                    },
+                    "insuredAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты страховой суммы",
+                        "example": "UZS"
+                    },
+                    "policyDeliveryDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата выдачи полиса (обычно равен agreementDate)",
+                        "example": "2026-03-18",
+                        "nullable": true
+                    },
+                    "policyEndDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата окончания действия полиса",
+                        "example": "2028-06-28"
+                    },
+                    "policyNumber": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Номер полиса",
+                        "example": null
+                    },
+                    "policySeries": {
+                        "type": "string",
+                        "description": "Серия полиса (серия полисов)",
+                        "example": "00"
+                    },
+                    "policyStartDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата начала действия полиса",
+                        "example": "2026-03-18"
+                    },
+                    "premiumAmount": {
+                        "type": "number",
+                        "description": "Сумма страховой премии",
+                        "example": 60000
+                    },
+                    "premiumAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты страховой премии",
+                        "example": "UZS"
+                    },
+                    "productCode": {
+                        "type": "string",
+                        "description": "Код страхового продукта",
+                        "example": "PersonalAccident",
+                        "nullable": true
+                    }
+                }
+            },
+            "SuccessResponse": {
+                "type": "object",
+                "required": [
+                    "operationResult"
+                ],
+                "properties": {
+                    "operationResult": {
+                        "type": "object",
+                        "required": [
+                            "errorMessage",
+                            "result"
+                        ],
+                        "properties": {
+                            "errorMessage": {
+                                "type": "string",
+                                "description": "Описание ошибки или информационное сообщение (в зависимости от флага result)"
+                            },
+                            "result": {
+                                "type": "number",
+                                "description": "Флаг ошибки. 0 - если Ок. 1 - если была ошибка",
+                                "example": 1
+                            }
+                        }
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор обрабатываемого объекта в 1С"
+                    }
+                }
+            },
+            "ErrorResponse": {
+                "type": "object",
+                "required": [
+                    "operationResult"
+                ],
+                "properties": {
+                    "operationResult": {
+                        "type": "object",
+                        "required": [
+                            "errorMessage",
+                            "result"
+                        ],
+                        "properties": {
+                            "errorMessage": {
+                                "type": "string",
+                                "description": "Описание ошибки или информационное сообщение (в зависимости от флага result)"
+                            },
+                            "result": {
+                                "type": "number",
+                                "description": "Флаг ошибки. 0 - если Ок. 1 - если была ошибка",
+                                "example": 1
+                            }
+                        }
+                    }
+                }
+            }    
+        },
+        "responses": {
+            "ProcessedError":{
+                "description": "Обработанная ошибка / исключение",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorResponse"
+                        },
+                        "examples": {
+                            "missingParametrs": {
+                                "value": {
+                                    "operationResult": {
+                                        "errorMessage": "Отсутствуют обязательные поля запроса transactionId и policy",
+                                        "result": 1
+                                    }
+                                }
+                            },
+                            "exception": {
+                                "value": {
+                                    "operationResult": {
+                                        "errorMessage": "Ошибка десериализации данных запроса/n{LeadingInsurance Документ.ЛС_РасторжениеДоговора.МодульОбъекта(201)}: Поле объекта не обнаружено (НоменклатураРасторжения)",
+                                        "result": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "MissingMethod":{
+                "description": "Отсутствует вызываемый метод",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorResponse"
+                        },
+                        "example": {
+                            "operationResult": {
+                                "errorMessage": "Отсутствует вызываемый метод add",
+                                "result": 1
+                            }
+                        }
+                    }
+                }
+            },
+            "IdempotencyError":{
+                "description": "Ошибка попытки вызова уже обработанной транзакции",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorResponse"
+                        },
+                        "example": {
+                            "operationResult": {
+                                "errorMessage": "Транзакция cc2f2e5c-d7d4-47ac-9f55-43407921869d уже была обработана. Подробная информация в transactionData",
+                                "result": 1,
+                                "transactionData": {
+                                    "id": "cc2f2e5c-d7d4-47ac-9f55-43407921869d",
+                                    "timeStamp": "1777295898",
+                                    "result": 0,
+                                    "resultMessage": "Успешно сформирован документ анулирования: Страховая премия 000000005 dated 20.04.2026 0:00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "DataConsistencyError":{
+                "description": "Ошибка незаполненности обязательных полей",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorResponse"
+                        },
+                        "examples": {
+                            "MissingParametrs":{
+                                "value": {
+                                    "operationResult": {
+                                        "errorMessage": "Отсутствует заполнение обязательных полей объекта policy: policySeries,policyEndDate",
+                                        "result": 1
+                                    }
+                                }
+                            },
+                            "ObjectNotFound":{
+                                "value": {
+                                    "operationResult": {
+                                        "errorMessage": "Не найден договор контрагента ID cc2f2e5c-d7d4-47ac-9f55-43407871869b для анналирования",
+                                        "result": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "InternalServerError":{
+                "description": "Внутренняя ошибка сервера / Необработанное исключение",
+                "content": {
+                    "text/plain":{
+                        "schema":{
+                            "type": "string",
+                            "description": "Трейс ошибки внутренного исключения",
+                            "example": "{LeadingInsurance Документ.ЛС_РасторжениеДоговора.МодульОбъекта(201)}: Поле объекта не обнаружено (НоменклатураРасторжения)"
+                        }
+                    }
+                }
+            },
+            "NotImplementedMethod":{
+                "description": "Отсутствует реализация метода",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorResponse"
+                        },
+                        "example": {
+                            "operationResult": {
+                                "errorMessage": "Отсутствует реализации обработки метода add",
+                                "result": 1
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -51,6 +563,131 @@
                 }
             }
         },
+        "/transactionCheck": {
+            "get": {
+                "tags": [
+                    "Common"
+                ],
+                "summary": "Проверка транзакции",
+                "description": "Получение статуса транзакции",
+                "operationId": "TransactionCheck",
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Идентификатор транзакции",
+                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407921869d",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "transactionData"
+                                    ],
+                                    "properties": {
+                                        "transactionData": {
+                                            "type": "object",
+                                            "required": [
+                                                "id",
+                                                "timeStamp"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "description": "Идентификатор транзакции",
+                                                    "example": "Дcc2f2e5c-d7d4-47ac-9f55-43407921869d"
+                                                },
+                                                "timeStamp": {
+                                                    "type": "string",
+                                                    "description": "Unix время получения транзакции в обработку",
+                                                    "example": "1777291678"
+                                                },
+                                                "result": {
+                                                    "type": "number",
+                                                    "description": "Флаг ошибки транзакции. 0 - если Ок. 1 - если была ошибка",
+                                                    "example": 1
+                                                },
+                                                "resultMessage": {
+                                                    "type": "string",
+                                                    "description": "Описание ошибки или информационное сообщение  результата транзакции (в зависимости от флага result)",
+                                                    "example": "Не найден договор контрагента ID 25fede4b-84e3-474b-8b31-ae529584428f для анналирования"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "transactionData": {
+                                        "id": "cc2f2e5c-d7d4-47ac-9f55-43407921869d",
+                                        "timeStamp": "1777291678",
+                                        "result": 1,
+                                        "resultMessage": "Не найден договор контрагента ID 25fede4b-84e3-474b-8b31-ae529584428f для анналирования"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Отсутствует запрашиваемая транзакция",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "errorMessage"
+                                    ],
+                                    "properties": {
+                                        "errorMessage": {
+                                            "type": "string",
+                                            "description": "Описание ошибки",
+                                            "example": "Транзакция ID cc2f2e5c-d7d4-47ac-9f55-43407921869d не обнаружена"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "errorMessage": "Транзакция ID cc2f2e5c-d7d4-47ac-9f55-43407921869d не обнаружена"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка отсутствия / заполнения обязательных полей",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "errorMessage"
+                                    ],
+                                    "properties": {
+                                        "errorMessage": {
+                                            "type": "string",
+                                            "description": "Описание ошибки",
+                                            "example": "Отсутствует обязательный параметр transactionId"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "errorMessage": "Отсутствует обязательный параметр transactionId"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                }
+            }
+        },
         "/agreements/add": {
             "post": {
                 "tags": [
@@ -72,254 +709,38 @@
                                 ],
                                 "properties": {
                                     "policy": {
-                                        "type": "object",
-                                        "description": "Объект, содержащий всю информацию по договору с клиентом",
-                                        "required": [
-                                            "id",
-                                            "agentId",
-                                            "agentConditionId",
-                                            "agentCommissionAmount",
-                                            "agreementId",
-                                            "agreementNumber",
-                                            "agreementDate",
-                                            "branchId",
-                                            "clientId",
-                                            "clientInn",
-                                            "clientPinfl",
-                                            "clientName",
-                                            "clientLegalType",
-                                            "insuranceViewName",
-                                            "oldPolicyId",
-                                            "paymentMethodId",
-                                            "policyDeliveryDate",
-                                            "policyEndDate",
-                                            "policyNumber",
-                                            "policyStartDate",
-                                            "policySeries",
-                                            "premiumAmountCurrencyCode",
-                                            "premiumAmount"
-                                        ],
-                                        "properties": {
-                                            "accountTypeId": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Идентификатор типа счета",
-                                                "example": null
-                                            },
-                                            "agentAgreementDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "nullable": true,
-                                                "description": "Дата агентского договора",
-                                                "example": null
-                                            },
-                                            "agentAgreementNumber": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Номер агентского договора",
-                                                "example": null
-                                            },
-                                            "agentCommissionAmount": {
-                                                "type": "number",
-                                                "nullable": true,
-                                                "description": "Сумма агентской комиссии",
-                                                "example": null
-                                            },
-                                            "agentConditionId": {
-                                                "type": "string",
-                                                "description": "Идентификатор договора с агентом",
-                                                "example": "90d04d2b-1601-4a67-a223-b167ea98002d"
-                                            },
-                                            "agentId": {
-                                                "type": "string",
-                                                "description": "Идентификатор агента",
-                                                "example": "90d04d2b-1601-4a67-a229-b167ea98002d"
-                                            },
-                                            "agentInn": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "ИНН агента",
-                                                "example": null
-                                            },
-                                            "agentLegalTypeId": {
-                                                "type": "number",
-                                                "nullable": true,
-                                                "description": "Тип лица агента (ФЛ, ЮЛ, ИП)",
-                                                "example": null
-                                            },
-                                            "agentName": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Наименование или ФИО агента",
-                                                "example": null
-                                            },
-                                            "agentPinfl": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "ПИНФЛ агента",
-                                                "example": null
-                                            },
-                                            "agreementDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата заключения договора",
-                                                "example": "2026-03-18"
-                                            },
-                                            "agreementId": {
-                                                "type": "string",
-                                                "description": "Уникальный ID договора",
-                                                "example": "25fede4b-84e3-474b-8b31-ae529584426f"
-                                            },
-                                            "agreementNumber": {
-                                                "type": "string",
-                                                "description": "Номер договора",
-                                                "example": "PA/001/001/0000000499/26/04/1"
-                                            },
-                                            "branchCode": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Код подразделения",
-                                                "example": null
-                                            },
-                                            "branchId": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Идентификатор подразделения",
-                                                "example": null
-                                            },
-                                            "clientId": {
-                                                "type": "string",
-                                                "description": "Идентификатор клиента",
-                                                "example": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c"
-                                            },
-                                            "clientInn": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "ИНН клиента",
-                                                "example": null
-                                            },
-                                            "clientLegalType": {
-                                                "type": "number",
-                                                "description": "Тип лица клиента (например, 3 - физлицос ПИНФЛ)",
-                                                "example": 3
-                                            },
-                                            "clientName": {
-                                                "type": "string",
-                                                "description": "ФИО или Наименование клиента",
-                                                "example": "Ivan214"
-                                            },
-                                            "clientPinfl": {
-                                                "type": "string",
-                                                "description": "ПИНФЛ клиента",
-                                                "example": "12345678"
-                                            },
-                                            "id": {
-                                                "type": "string",
-                                                "description": "Внутренний идентификатор записи (обычно равен agreementId)",
-                                                "example": "25fede4b-84e3-474b-8b31-ae529584426f"
-                                            },
-                                            "insuranceViewName": {
-                                                "type": "string",
-                                                "description": "Вид страхования (необходим для определения номенклатурнйо группы страхования)",
-                                                "example": "ICL Insurance"
-                                            },
-                                            "insuredAmount": {
-                                                "type": "number",
-                                                "description": "Страховая сумма",
-                                                "example": 2000000
-                                            },
-                                            "insuredAmountCurrencyCode": {
-                                                "type": "string",
-                                                "description": "Код валюты страховой суммы",
-                                                "example": "UZS"
-                                            },
-                                            "oldAgreementId": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "ID старого договора (при переносе задолженности)",
-                                                "example": null
-                                            },
-                                            "oldPolicyId": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "ID старого полиса (при переносе задолженности)",
-                                                "example": null
-                                            },
-                                            "paidAmount": {
-                                                "type": "number",
-                                                "nullable": true,
-                                                "description": "Сумма оплаты",
-                                                "example": null
-                                            },
-                                            "paidAmountCurrencyCode": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Код валюты оплаты",
-                                                "example": null
-                                            },
-                                            "paidFromClientAccount": {
-                                                "type": "boolean",
-                                                "nullable": true,
-                                                "description": "Признак оплаты со счета клиента",
-                                                "example": null
-                                            },
-                                            "paymentMethodId": {
-                                                "type": "number",
-                                                "description": "ID метода оплаты",
-                                                "example": 1
-                                            },
-                                            "policyDeliveryDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата выдачи полиса (обычно равен agreementDate)",
-                                                "example": "2026-03-18"
-                                            },
-                                            "policyEndDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата окончания действия полиса",
-                                                "example": "2028-06-28"
-                                            },
-                                            "policyLastModifiedDate": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "nullable": true,
-                                                "description": "Дата последнего изменения",
-                                                "example": null
-                                            },
-                                            "policyNumber": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Номер полиса",
-                                                "example": null
-                                            },
-                                            "policySeries": {
-                                                "type": "string",
-                                                "description": "Серия полиса (серия полисов)",
-                                                "example": "00"
-                                            },
-                                            "policyStartDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата начала действия полиса",
-                                                "example": "2026-03-18"
-                                            },
-                                            "premiumAmount": {
-                                                "type": "number",
-                                                "description": "Сумма страховой премии",
-                                                "example": 60000
-                                            },
-                                            "premiumAmountCurrencyCode": {
-                                                "type": "string",
-                                                "description": "Код валюты страховой премии",
-                                                "example": "UZS"
-                                            },
-                                            "productCode": {
-                                                "type": "string",
-                                                "description": "Код страхового продукта",
-                                                "example": "PersonalAccident"
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgreementRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agentId",
+                                                    "agentConditionId",
+                                                    "agentCommissionAmount",
+                                                    "agreementId",
+                                                    "agreementNumber",
+                                                    "agreementDate",
+                                                    "branchId",
+                                                    "clientId",
+                                                    "clientInn",
+                                                    "clientPinfl",
+                                                    "clientName",
+                                                    "clientLegalType",
+                                                    "insuranceViewName",
+                                                    "oldPolicyId",
+                                                    "paymentMethodId",
+                                                    "policyId",
+                                                    "policyDeliveryDate",
+                                                    "policyEndDate",
+                                                    "policyNumber",
+                                                    "policyStartDate",
+                                                    "policySeries",
+                                                    "premiumAmountCurrencyCode",
+                                                    "premiumAmount"
+                                                ]
                                             }
-                                        }
+                                        ]
                                     },
                                     "transactionId": {
                                         "type": "string",
@@ -328,54 +749,49 @@
                                     }
                                 }
                             },
-                            "examples": {
-                                "Example1": {
-                                    "summary": "Пример успешного заполнения",
-                                    "value": {
-                                        "policy": {
-                                            "accountTypeId": null,
-                                            "agentAgreementDate": null,
-                                            "agentAgreementNumber": null,
-                                            "agentCommissionAmount": null,
-                                            "agentConditionId": "90d04d2b-1601-4a67-a223-b167ea98002d",
-                                            "agentId": "90d04d2b-1601-4a67-a229-b167ea98002d",
-                                            "agentInn": null,
-                                            "agentLegalTypeId": null,
-                                            "agentName": null,
-                                            "agentPinfl": null,
-                                            "agreementDate": "2026-03-18",
-                                            "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                            "agreementNumber": "PA/001/001/0000000499/26/04/1",
-                                            "branchCode": null,
-                                            "branchId": null,
-                                            "clientId": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c",
-                                            "clientInn": null,
-                                            "clientLegalType": 3,
-                                            "clientName": "Ivan214",
-                                            "clientPinfl": "12345678",
-                                            "id": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                            "insuranceViewName": "ICL Insurance",
-                                            "insuredAmount": 2000000,
-                                            "insuredAmountCurrencyCode": "UZS",
-                                            "oldAgreementId": null,
-                                            "oldPolicyId": null,
-                                            "paidAmount": null,
-                                            "paidAmountCurrencyCode": null,
-                                            "paidFromClientAccount": null,
-                                            "paymentMethodId": 1,
-                                            "policyDeliveryDate": "2026-03-18",
-                                            "policyEndDate": "2028-06-28",
-                                            "policyLastModifiedDate": null,
-                                            "policyNumber": null,
-                                            "policySeries": "00",
-                                            "policyStartDate": "2026-03-18",
-                                            "premiumAmount": 60000,
-                                            "premiumAmountCurrencyCode": "UZS",
-                                            "productCode": "PersonalAccident"
-                                        },
-                                        "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
-                                    }
-                                }
+                            "example": {
+                                "policy": {
+                                    "id": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "accountTypeId": null,
+                                    "agentAgreementDate": null,
+                                    "agentAgreementNumber": null,
+                                    "agentCommissionAmount": null,
+                                    "agentConditionId": "90d04d2b-1601-4a67-a223-b167ea98002d",
+                                    "agentId": "90d04d2b-1601-4a67-a229-b167ea98002d",
+                                    "agentInn": null,
+                                    "agentLegalTypeId": null,
+                                    "agentName": null,
+                                    "agentPinfl": null,
+                                    "agreementDate": "2026-03-18",
+                                    "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "agreementNumber": "PA/001/001/0000000499/26/04/1",
+                                    "branchCode": null,
+                                    "branchId": null,
+                                    "clientId": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c",
+                                    "clientInn": null,
+                                    "clientLegalType": 3,
+                                    "clientName": "Ivan214",
+                                    "clientPinfl": "12345678",
+                                    "insuranceViewName": "ICL Insurance",
+                                    "insuredAmount": 2000000,
+                                    "insuredAmountCurrencyCode": "UZS",
+                                    "oldAgreementId": null,
+                                    "oldPolicyId": null,
+                                    "paidAmount": null,
+                                    "paidAmountCurrencyCode": null,
+                                    "paidFromClientAccount": null,
+                                    "paymentMethodId": 1,
+                                    "policyDeliveryDate": "2026-03-18",
+                                    "policyEndDate": "2028-06-28",
+                                    "policyLastModifiedDate": null,
+                                    "policyNumber": null,
+                                    "policySeries": "00",
+                                    "policyStartDate": "2026-03-18",
+                                    "premiumAmount": 60000,
+                                    "premiumAmountCurrencyCode": "UZS",
+                                    "productCode": "PersonalAccident"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
                             }
                         }
                     }
@@ -383,75 +799,128 @@
                 "responses": {
                     "200": {
                         "description": "Успешное выполнение запроса",
-                        "headers": {
-                            "content-length": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "164"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "OperationResult"
-                                    ],
-                                    "properties": {
-                                        "OperationResult": {
-                                            "type": "object",
-                                            "required": [
-                                                "errorMessage",
-                                                "result"
-                                            ],
-                                            "properties": {
-                                                "errorMessage": {
-                                                    "type": "string",
-                                                    "description": "Описание ошибки или информационное сообщение (в зависимости от флага result)",
-                                                    "example": "Документ проведен: Страховая премия 000000004 от 18.03.2026 0:00:00"
-                                                },
-                                                "result": {
-                                                    "type": "number",
-                                                    "description": "Флаг ошибки. 0 - если Ок. 1 - если была ошибка",
-                                                    "example": 0
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/SuccessResponse"
                                 },
-                                "examples": {
-                                    "succsesful": {
-                                        "value": {
-                                            "OperationResult": {
-                                                "errorMessage": "Документ проведен: Страховая премия 000000004 от 18.03.2026 0:00:00",
-                                                "result": 0
-                                            }
-                                        }
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирован документ: Страховая премия 000000004 от 18.03.2026 0:00:00",
+                                        "result": 0
                                     },
-                                    "failed": {
-                                        "value": {
-                                            "OperationResult": {
-                                                "errorMessage": "Не заполнено обязательное поле ID агента",
-                                                "result": 1
-                                            }
-                                        }
-                                    }
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
                                 }
                             }
                         }
                     },
-                    "500":{
-                        "description": "Внутренняя ошибка сервера / Необработанное исключение",
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/agreements/cancel": {
+            "post": {
+                "tags": [
+                    "Agreements"
+                ],
+                "summary": "Аннулирование договора страхования",
+                "description": "",
+                "operationId": "AgreementsCancel",
+                "requestBody": {
+                    "description": "Данные для аннулирования договора страхования",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "policy",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "policy": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgreementRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "cancelDate"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "policy": {
+                                    "id": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "agreementId": "25fede4b-84e3-42c3-9f23-358ff65cdc2c",
+                                    "cancelDate": "2026-03-18"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
                         "content": {
-                            "text/plain":{
-                                "schema":{
-                                    "type": "string",
-                                    "description": "Трейс ошибки внутренного исключения",
-                                    "example": "{LeadingInsurance Документ.ЛС_РасторжениеДоговора.МодульОбъекта(201)}: Поле объекта не обнаружено (НоменклатураРасторжения)"
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирован документ анулирования: Страховая премия 000000005 от 18.03.2026 0:00:00",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
                     }
                 }
             }
@@ -477,101 +946,24 @@
                                 ],
                                 "properties": {
                                     "policy": {
-                                        "type": "object",
-                                        "description": "Объект, содержащий всю информацию по полису",
-                                        "required": [
-                                            "id",
-                                            "agreementId",
-                                            "insuredAmount",
-                                            "insuredAmountCurrencyCode",
-                                            "policyEndDate",
-                                            "policyNumber",
-                                            "policySeries",
-                                            "policyStartDate",
-                                            "premiumAmount",
-                                            "premiumAmountCurrencyCode"
-                                        ],
-                                        "properties": {
-                                            "id": {
-                                                "type": "string",
-                                                "description": "Внутренний идентификатор полиса",
-                                                "example": "25fede4b-84e3-474b-8b31-ae529584426f"
-                                            },
-                                            "agreementId": {
-                                                "type": "string",
-                                                "description": "Уникальный ID договора",
-                                                "example": "25fede4b-84e3-474b-8b31-ae529584426f"
-                                            },
-                                            "agreementDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата заключения договора",
-                                                "example": "2026-03-18",
-                                                "nullable": true
-                                            },
-                                            "agreementNumber": {
-                                                "type": "string",
-                                                "description": "Номер договора",
-                                                "example": "PA/001/001/0000000499/26/04/1",
-                                                "nullable": true
-                                            },
-                                            "insuredAmount": {
-                                                "type": "number",
-                                                "description": "Страховая сумма",
-                                                "example": 2000000
-                                            },
-                                            "insuredAmountCurrencyCode": {
-                                                "type": "string",
-                                                "description": "Код валюты страховой суммы",
-                                                "example": "UZS"
-                                            },
-                                            "policyDeliveryDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата выдачи полиса (обычно равен agreementDate)",
-                                                "example": "2026-03-18",
-                                                "nullable": true
-                                            },
-                                            "policyEndDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата окончания действия полиса",
-                                                "example": "2028-06-28"
-                                            },
-                                            "policyNumber": {
-                                                "type": "string",
-                                                "nullable": true,
-                                                "description": "Номер полиса",
-                                                "example": null
-                                            },
-                                            "policySeries": {
-                                                "type": "string",
-                                                "description": "Серия полиса (серия полисов)",
-                                                "example": "00"
-                                            },
-                                            "policyStartDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "description": "Дата начала действия полиса",
-                                                "example": "2026-03-18"
-                                            },
-                                            "premiumAmount": {
-                                                "type": "number",
-                                                "description": "Сумма страховой премии",
-                                                "example": 60000
-                                            },
-                                            "premiumAmountCurrencyCode": {
-                                                "type": "string",
-                                                "description": "Код валюты страховой премии",
-                                                "example": "UZS"
-                                            },
-                                            "productCode": {
-                                                "type": "string",
-                                                "description": "Код страхового продукта",
-                                                "example": "PersonalAccident",
-                                                "nullable": true
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/PolicyRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "insuredAmount",
+                                                    "insuredAmountCurrencyCode",
+                                                    "policyEndDate",
+                                                    "policyNumber",
+                                                    "policySeries",
+                                                    "policyStartDate",
+                                                    "premiumAmount",
+                                                    "premiumAmountCurrencyCode"
+                                                ]
                                             }
-                                        }
+                                        ]   
                                     },
                                     "transactionId": {
                                         "type": "string",
@@ -580,30 +972,25 @@
                                     }
                                 }
                             },
-                            "examples": {
-                                "Example1": {
-                                    "summary": "Пример успешного заполнения",
-                                    "value": {
-                                        "policy": {
-                                            "id": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                            "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                            "agreementDate": "2026-03-18",
-                                            "agreementNumber": "PA/001/001/0000000499/26/04/1",
-                                            "insuredAmount": 2000000,
-                                            "insuredAmountCurrencyCode": "UZS",
-                                            "policyDeliveryDate": "2026-03-18",
-                                            "policyEndDate": "2028-06-28",
-                                            "policyLastModifiedDate": null,
-                                            "policyNumber": "0000000499",
-                                            "policySeries": "00",
-                                            "policyStartDate": "2026-03-18",
-                                            "premiumAmount": 60000,
-                                            "premiumAmountCurrencyCode": "UZS",
-                                            "productCode": "PersonalAccident"
-                                        },
-                                        "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
-                                    }
-                                }
+                            "example": {
+                                "policy": {
+                                    "id": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "agreementDate": "2026-03-18",
+                                    "agreementNumber": "PA/001/001/0000000499/26/04/1",
+                                    "insuredAmount": 2000000,
+                                    "insuredAmountCurrencyCode": "UZS",
+                                    "policyDeliveryDate": "2026-03-18",
+                                    "policyEndDate": "2028-06-28",
+                                    "policyLastModifiedDate": null,
+                                    "policyNumber": "0000000499",
+                                    "policySeries": "00",
+                                    "policyStartDate": "2026-03-18",
+                                    "premiumAmount": 60000,
+                                    "premiumAmountCurrencyCode": "UZS",
+                                    "productCode": "PersonalAccident"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
                             }
                         }
                     }
@@ -611,82 +998,38 @@
                 "responses": {
                     "200": {
                         "description": "Успешное выполнение запроса",
-                        "headers": {
-                            "content-length": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "164"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "OperationResult"
-                                    ],
-                                    "properties": {
-                                        "OperationResult": {
-                                            "type": "object",
-                                            "required": [
-                                                "errorMessage",
-                                                "result"
-                                            ],
-                                            "properties": {
-                                                "internalPolicyID":{
-                                                    "type": "string",
-                                                    "description": "Внутренний уникальный идентификатор полиса в 1С",
-                                                    "example": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                                    "nullable": true 
-                                                },
-                                                "errorMessage": {
-                                                    "type": "string",
-                                                    "description": "Описание ошибки или информационное сообщение (в зависимости от флага result)",
-                                                    "example": "Полис №00-0000000499 успешно создан"
-                                                },
-                                                "result": {
-                                                    "type": "number",
-                                                    "description": "Флаг ошибки. 0 - если Ок. 1 - если была ошибка",
-                                                    "example": 0
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/SuccessResponse"
                                 },
-                                "examples": {
-                                    "successful": {
-                                        "value": {
-                                            "OperationResult": {
-                                                "internalPolicyID": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                                "errorMessage": "Полис №00-0000000499 успешно создан",
-                                                "result": 0
-                                            }
-                                        }
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирован/обновлен полис: №00-0000000499",
+                                        "result": 0
                                     },
-                                    "failed": {
-                                        "value": {
-                                            "OperationResult": {
-                                                "errorMessage": "Не заполнено обязательное поле ID договора",
-                                                "result": 1
-                                            }
-                                        }
-                                    }
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
                                 }
                             }
                         }
                     },
-                    "500":{
-                        "description": "Внутренняя ошибка сервера / Необработанное исключение",
-                        "content": {
-                            "text/plain":{
-                                "schema":{
-                                    "type": "string",
-                                    "description": "Трейс ошибки внутренного исключения",
-                                    "example": "{LeadingInsurance Документ.ЛС_РасторжениеДоговора.МодульОбъекта(201)}: Поле объекта не обнаружено (НоменклатураРасторжения)"
-                                }
-                            }
-                        }
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
                     }
                 }
             }
