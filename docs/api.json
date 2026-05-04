@@ -262,6 +262,31 @@
                         "type": "string",
                         "description": "Код страхового продукта",
                         "example": "PersonalAccident"
+                    },
+                    "refundAmount": {
+                        "type": "number",
+                    "description": "Сумма возврата страховой премии",
+                        "example": 60000
+                    },
+                    "refundNDS": {
+                        "type": "number",
+                        "description": "Сумма НДС по возврату страховой премии",
+                        "example": 600
+                    },
+                    "refundAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты возврата страховой премии",
+                        "example": "UZS"
+                    },
+                    "refundAgentAmount": {
+                        "type": "number",
+                        "description": "Сумма возврата страховой премии агентом",
+                        "example": 6000
+                    },
+                    "refundAgentAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты возврата страховой премии агентом",
+                        "example": "UZS"
                     }
                 }
             },
@@ -334,6 +359,18 @@
                         "type": "string",
                         "format": "date",
                         "description": "Дата начала действия полиса",
+                        "example": "2026-03-18"
+                    },
+                    "policyStatus": {
+                        "type": "string",
+                        "enum": ["New", "Active", "Сancelled", "Terminated", "Completed"],
+                        "description": "Статус полиса",
+                        "example": "Active"
+                    },
+                    "policyStatusChangeDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата изменения статуса полиса на текущий",
                         "example": "2026-03-18"
                     },
                     "premiumAmount": {
@@ -862,7 +899,6 @@
                                                 "type": "object",
                                                 "required": [
                                                     "id",
-                                                    "agreementId",
                                                     "cancelDate"
                                                 ]
                                             }
@@ -925,6 +961,302 @@
                 }
             }
         },
+        "/agreements/terminate": {
+            "post": {
+                "tags": [
+                    "Agreements"
+                ],
+                "summary": "Расторжение договора страхования",
+                "description": "",
+                "operationId": "AgreementsTerminate",
+                "requestBody": {
+                    "description": "Данные для расторжения договора страхования",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "policy",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "policy": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgreementRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "insuranceViewName",
+                                                    "policyId",
+                                                    "policyStatus",
+                                                    "policyStatusChangeDate",
+                                                    "refundAmount",
+                                                    "refundAmountCurrencyCode",
+                                                    "refundAgentAmount",
+                                                    "refundAgentAmountCurrencyCode"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "policy": {
+                                    "id": "19a7f4b0-2d93-4f65-976d-beee88fb9073",
+                                    "agreementId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
+                                    "insuranceViewName": "ICL Insurance",
+                                    "policyId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
+                                    "policyStatus": "Completed",
+                                    "policyStatusChangeDate": "2026-04-29",
+                                    "refundAmount": 20000000,
+                                    "refundAmountCurrencyCode": "UZS",
+                                    "refundAgentAmount": 200000,
+                                    "refundAgentAmountCurrencyCode": "UZS"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирован документ расторжения: Расторжение договора 000000005 от 18.03.2026 0:00:00",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/agreements/refundFull": {
+            "post": {
+                "tags": [
+                    "Agreements"
+                ],
+                "summary": "Расторжение с полныйм возвратом страховой премии",
+                "description": "Вызывается после расторжения или завершения договора, если клиент запросил возврат полной суммы",
+                "operationId": "AgreementsRefundFull",
+                "requestBody": {
+                    "description": "Данные для полного возврата при расторжении",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "policy",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "policy": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgreementRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "insuranceViewName",
+                                                    "policyId",
+                                                    "policyStatus",
+                                                    "policyStatusChangeDate",
+                                                    "refundAmount",
+                                                    "refundNDS",
+                                                    "refundAmountCurrencyCode"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "policy": {
+                                    "id": "19a7f4b0-2d93-4f65-976d-beee88fb9073",
+                                    "agreementId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
+                                    "insuranceViewName": "ICL Insurance",
+                                    "policyId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
+                                    "policyStatus": "Completed",
+                                    "policyStatusChangeDate": "2026-04-29",
+                                    "refundAmount": 20000000,
+                                    "refundNDS": 20000,
+                                    "refundAmountCurrencyCode": "UZS"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирован документ расторжения: Расторжение договора 000000005 от 18.03.2026 0:00:00",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/agreements/complete": {
+            "post": {
+                "tags": [
+                    "Agreements"
+                ],
+                "summary": "Завершение договора страхования",
+                "description": "",
+                "operationId": "AgreementsComplete",
+                "requestBody": {
+                    "description": "Данные для завершения договора страхования",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "policy",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "policy": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgreementRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "policyStatus",
+                                                    "policyStatusChangeDate"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "policy": {
+                                    "id": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "policyStatus": "Completed",
+                                    "policyStatusChangeDate": "2026-03-18"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно установлен статус Completed полиса №00-0000000499",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
         "/policies/add": {
             "post": {
                 "tags": [
@@ -959,6 +1291,7 @@
                                                     "policyNumber",
                                                     "policySeries",
                                                     "policyStartDate",
+                                                    "policyStatus",
                                                     "premiumAmount",
                                                     "premiumAmountCurrencyCode"
                                                 ]
@@ -1006,6 +1339,96 @@
                                 "example": {
                                     "operationResult": {
                                         "errorMessage": "Успешно сформирован/обновлен полис: №00-0000000499",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/policies/changeStatus": {
+            "post": {
+                "tags": [
+                    "Policies"
+                ],
+                "summary": "Изменение статуса полиса страхования",
+                "description": "",
+                "operationId": "PoliciesChangeStatus",
+                "requestBody": {
+                    "description": "Данные для изменения статуса полиса страхования",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "policy",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "policy": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/PolicyRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "policyStatus",
+                                                    "policyStatusChangeDate"
+                                                ]
+                                            }
+                                        ]   
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "policy": {
+                                    "id": "25fede4b-84e3-474b-8b31-ae529584426f",
+                                    "policyStatus": "Cancelled",
+                                    "policyStatusChangeDate": "2026-03-18"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно установлен статус Cancelled полиса №00-0000000499",
                                         "result": 0
                                     },
                                     "id": "25fede4b-84e3-474b-ffff-ae529584426f"
