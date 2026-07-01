@@ -1574,11 +1574,11 @@
                 "tags": [
                     "Claims"
                 ],
-                "summary": "Добавление / Изменение заявления на страхование",
+                "summary": "Добавление / Изменение претензии",
                 "description": "",
                 "operationId": "ClaimsAdd",
                 "requestBody": {
-                    "description": "Данные для создания или изменения заявления на страхование",
+                    "description": "Данные для создания или изменения претензии",
                     "required": true,
                     "content": {
                         "application/json": {
