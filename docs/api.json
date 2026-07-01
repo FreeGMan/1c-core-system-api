@@ -2,12 +2,17 @@
     "openapi": "3.0.3",
     "info": {
         "title": "1c-core-system-api",
-        "version": "0.9.8",
+        "version": "0.9.12",
         "contact": {}
     },
     "servers": [
         {
             "url": "https://localhost/{baseName}/hs/api"
+        }
+    ],
+    "security": [
+        {
+            "BasicAuth": []
         }
     ],
     "components": {
@@ -21,6 +26,13 @@
                 "schema": {
                     "type": "string"
                 }
+            }
+        },
+        "securitySchemes": {
+            "BasicAuth": {
+                "type": "http",
+                "scheme": "basic",
+                "description": "Аутентификация по логину и паролю"
             }
         },
         "schemas": {
@@ -235,7 +247,7 @@
                         "type": "string",
                         "nullable": true,
                         "description": "Номер полиса",
-                        "example": null
+                        "example": "0069406173"
                     },
                     "policySeries": {
                         "type": "string",
@@ -348,7 +360,7 @@
                         "type": "string",
                         "nullable": true,
                         "description": "Номер полиса",
-                        "example": null
+                        "example": "0069406173"
                     },
                     "policySeries": {
                         "type": "string",
@@ -363,7 +375,7 @@
                     },
                     "policyStatus": {
                         "type": "string",
-                        "enum": ["New", "Active", "Сancelled", "Terminated", "Completed"],
+                        "enum": ["New", "Active", "Cancelled", "Terminated", "Completed"],
                         "description": "Статус полиса",
                         "example": "Active"
                     },
@@ -388,6 +400,106 @@
                         "description": "Код страхового продукта",
                         "example": "PersonalAccident",
                         "nullable": true
+                    }
+                }
+            },
+            "ClaimRequest": {
+                "type": "object",
+                "description": "Объект, содержащий информацию по претензии",
+                "required": [
+                    "id",
+                    "agreementId",
+                    "claimDate",
+                    "claimNumber",
+                    "policyId"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор претензии",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agreementId": {
+                        "type": "string",
+                        "description": "Уникальный ID договора",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agreementDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата заключения договора",
+                        "example": "2026-03-18",
+                        "nullable": true
+                    },
+                    "agreementNumber": {
+                        "type": "string",
+                        "description": "Номер договора",
+                        "example": "PA/001/001/0000000499/26/04/1",
+                        "nullable": true
+                    },
+                    "claimAmount": {
+                        "type": "number",
+                        "description": "Сумма претензии",
+                        "example": 2000000
+                    },
+                    "claimAmountCurrencyCode": {
+                        "type": "string",
+                        "description": "Код валюты суммы претензии",
+                        "example": "UZS"
+                    },
+                    "claimApproved": {
+                        "type": "boolean",
+                        "description": "Признак одобрения претензии",
+                        "example": true
+                    },
+                    "claimBeneficiaryId": {
+                        "type": "string",
+                        "description": "Уникальный ID выгодоприобретателя претензии",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "policyNumber": {
+                        "type": "string",
+                        "description": "Номер полиса",
+                        "example": "0069406173"
+                    },
+                    "claimChangeDate": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true,
+                        "description": "Дата возникновения отправляемых изменений по претензии",
+                        "example": "2026-03-25"
+                    },
+                    "claimDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата возникновения претензии",
+                        "example": "2026-03-18"
+                    },
+                    "claimIsDeath": {
+                        "type": "boolean",
+                        "description": "Признак указывающий на тип претензии (Life / Non-Life)",
+                        "example": true
+                    },
+                    "claimNumber": {
+                        "type": "string",
+                        "description": "Номер претензии",
+                        "example": "111111"
+                    },
+                    "claimStatus": {
+                        "type": "string",
+                        "enum": ["New", "Open", "Delayed", "Approved", "Declined", "Settled"],
+                        "description": "Статус претензии",
+                        "example": "New"
+                    },
+                    "clientId": {
+                        "type": "string",
+                        "description": "Идентификатор клиента",
+                        "example": "e2ccbe13-c238-42c3-9f23-358ff65cdc2c"
+                    },
+                    "policyId": {
+                        "type": "string",
+                        "description": "Идентификатор полиса страхования",
+                        "example": "90d04d2b-1601-4a67-a229-b167ea9800ff"
                     }
                 }
             },
@@ -1456,6 +1568,115 @@
                     }
                 }
             }
+        },
+        "/claims/add": {
+            "post": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Добавление / Изменение заявления на страхование",
+                "description": "",
+                "operationId": "ClaimsAdd",
+                "requestBody": {
+                    "description": "Данные для создания или изменения заявления на страхование",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "claim",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "claim": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/ClaimRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "claimAmount",
+                                                    "claimAmountCurrencyCode",
+                                                    "claimBeneficiaryId",
+                                                    "claimDate",
+                                                    "claimIsDeath",
+                                                    "claimNumber",
+                                                    "claimStatus",
+                                                    "clientId",
+                                                    "policyId"
+                                                ]
+                                            }
+                                        ]   
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "claim": {
+                                    "id": "6c8b3407-26c0-5060-8f46-962c47ea10e6",
+                                    "agreementId": "6c8b3407-26c0-4860-8f46-962c47ea10e6",
+                                    "agreementNumber": "PA/001/001/0000008823/26/06/1",
+                                    "agreementDate": "2026-06-05",
+                                    "claimAmount": 7500,
+                                    "claimAmountCurrencyCode": "UZS",
+                                    "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
+                                    "claimChangeDate": "2026-06-21",
+                                    "claimDate": "2026-06-20",
+                                    "claimIsDeath": false,
+                                    "claimNumber": "0000001111",
+                                    "claimStatus": "Delayed",
+                                    "clientId": "a799b977-b09f-4986-b576-e2a414c7b35f",
+                                    "policyId": "6c8b3407-26c0-4860-8f46-962c47ea10e6"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирована/обновлена претензия: 0000001111",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -1463,13 +1684,17 @@
             "name": "Common",
             "description": "Обшие системные методы"
         },
-         {
+        {
             "name": "Agreements",
             "description": "Методы для работы с договорами страхования."
         },
-         {
+        {
             "name": "Policies",
             "description": "Методы для работы с полисами страхования."
+        },
+        {
+            "name": "Claims",
+            "description": "Методы для работы с претензиями."
         }
     ]
 }
