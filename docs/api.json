@@ -1804,16 +1804,19 @@
                                 "properties": {
                                     "claims": {
                                         "type": "array",
+                                        "description": "Массив идентификаторов претензий",
                                         "items": {
-                                            "allOf": [
-                                                {"$ref": "#/components/schemas/ClaimRequest"},
-                                                {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "id"
-                                                    ]
+                                            "type": "object",
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "description": "Внутренний идентификатор претензии",
+                                                    "example": "25fede4b-84e3-474b-8b31-ae529584426f"
                                                 }
-                                            ]   
+                                            }
                                         }
                                     },
                                     "transactionId": {
