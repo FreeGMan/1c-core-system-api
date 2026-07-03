@@ -447,11 +447,6 @@
                         "description": "Код валюты суммы претензии",
                         "example": "UZS"
                     },
-                    "claimApproved": {
-                        "type": "boolean",
-                        "description": "Признак одобрения претензии",
-                        "example": true
-                    },
                     "claimBeneficiaryId": {
                         "type": "string",
                         "description": "Уникальный ID выгодоприобретателя претензии",
@@ -475,7 +470,7 @@
                         "description": "Дата возникновения претензии",
                         "example": "2026-03-18"
                     },
-                    "claimIsDeath": {
+                    "claimIsLife": {
                         "type": "boolean",
                         "description": "Признак указывающий на тип претензии (Life / Non-Life)",
                         "example": true
@@ -1601,7 +1596,7 @@
                                                     "claimAmountCurrencyCode",
                                                     "claimBeneficiaryId",
                                                     "claimDate",
-                                                    "claimIsDeath",
+                                                    "claimIsLife",
                                                     "claimNumber",
                                                     "claimStatus",
                                                     "clientId",
@@ -1628,7 +1623,7 @@
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
                                     "claimChangeDate": "2026-06-21",
                                     "claimDate": "2026-06-20",
-                                    "claimIsDeath": false,
+                                    "claimIsLife": false,
                                     "claimNumber": "0000001111",
                                     "claimStatus": "Delayed",
                                     "clientId": "a799b977-b09f-4986-b576-e2a414c7b35f",
@@ -1653,6 +1648,273 @@
                                         "result": 0
                                     },
                                     "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/claims/decision": {
+            "post": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Фиксация принятого решения по претензии",
+                "description": "",
+                "operationId": "ClaimsDecision",
+                "requestBody": {
+                    "description": "Данные для записи решения по претензии",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "claim",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "claim": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/ClaimRequest"},
+                                            {
+                                                "type": "object",
+                                                "required": [
+                                                    "id",
+                                                    "agreementId",
+                                                    "claimAmount",
+                                                    "claimAmountCurrencyCode",
+                                                    "claimBeneficiaryId",
+                                                    "claimDate",
+                                                    "claimIsLife",
+                                                    "claimNumber",
+                                                    "claimStatus",
+                                                    "clientId",
+                                                    "policyId"
+                                                ]
+                                            }
+                                        ]   
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "claim": {
+                                    "id": "6c8b3407-26c0-5060-8f46-962c47ea10e6",
+                                    "agreementId": "6c8b3407-26c0-4860-8f46-962c47ea10e6",
+                                    "agreementNumber": "PA/001/001/0000008823/26/06/1",
+                                    "agreementDate": "2026-06-05",
+                                    "claimAmount": 7500,
+                                    "claimAmountCurrencyCode": "UZS",
+                                    "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
+                                    "claimChangeDate": "2026-06-21",
+                                    "claimDate": "2026-06-20",
+                                    "claimIsLife": false,
+                                    "claimNumber": "0000001111",
+                                    "claimStatus": "Approved",
+                                    "clientId": "a799b977-b09f-4986-b576-e2a414c7b35f",
+                                    "policyId": "6c8b3407-26c0-4860-8f46-962c47ea10e6"
+                                },
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно получен статус оплаты по претензии: 0000001111",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
+                    }
+                }
+            }
+        },
+        "/claims/getPaymentStatus": {
+            "post": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Получение статуса оплаты по списку претензий",
+                "description": "",
+                "operationId": "ClaimsGetPaymentStatus",
+                "requestBody": {
+                    "description": "Данные для получения статуса оплаты по списку претензий",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "claims",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "claims": {
+                                        "type": "array",
+                                        "items": {
+                                            "allOf": [
+                                                {"$ref": "#/components/schemas/ClaimRequest"},
+                                                {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "id"
+                                                    ]
+                                                }
+                                            ]   
+                                        }
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "claims": [
+                                    {
+                                        "id": "6c8b3407-26c0-5060-8f46-962c47ea10e6"
+                                    },
+                                    {
+                                        "id": "6c8b3407-26c0-5060-8f46-962c47ea11e6"
+                                    },
+                                    {
+                                        "id": "6c8b3407-26c0-5060-8f46-962c47ea13e6"
+                                    }
+                                ],
+                                "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "operationResult",
+                                        "claims"
+                                    ],
+                                    "properties": {
+                                        "operationResult": {
+                                            "type": "object",
+                                            "required": [
+                                                "errorMessage",
+                                                "result"
+                                            ],
+                                            "properties": {
+                                                "errorMessage": {
+                                                    "type": "string",
+                                                    "description": "Описание ошибки или информационное сообщение (в зависимости от флага result)"
+                                                },
+                                                "result": {
+                                                    "type": "number",
+                                                    "description": "Флаг ошибки. 0 - если Ок. 1 - если была ошибка",
+                                                    "example": 1
+                                                }
+                                            }
+                                        },
+                                        "claims": {
+                                            "type": "array",
+                                            "description": "Список статусов претензий",
+                                            "items": {
+                                                "type": "object",
+                                                "required": [
+                                                    "claimId",
+                                                    "claimPaymentStatus"
+                                                ],
+                                                "properties": {
+                                                    "claimId": {
+                                                        "type": "string",
+                                                        "description": "Идентификатор претензии"
+                                                    },
+                                                    "claimPaymentStatus": {
+                                                        "type": "string",
+                                                        "enum": ["Paid", "Pending"],
+                                                        "nullable": true,
+                                                        "description": "Статус оплаты претензии. Null - если претензия не найдена или оплата не требуется",
+                                                        "example": "Paid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно получен статусы оплат по претензиям",
+                                        "result": 0
+                                    },
+                                    "claims": [
+                                        {
+                                            "claimId": "6c8b3407-26c0-5060-8f46-962c47ea10e6",
+                                            "claimPaymentStatus": "Paid"
+                                        },
+                                        {
+                                            "claimId": "6c8b3407-26c0-5060-8f46-962c47ea11e6",
+                                            "claimPaymentStatus": "Pending"
+                                        },
+                                        {
+                                            "claimId": "6c8b3407-26c0-5060-8f46-962c47ea13e6",
+                                            "claimPaymentStatus": null
+                                        }
+                                    ]
                                 }
                             }
                         }
