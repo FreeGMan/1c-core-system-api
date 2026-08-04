@@ -459,10 +459,10 @@
                     },
                     "claimChangeDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "nullable": true,
                         "description": "Дата возникновения отправляемых изменений по претензии",
-                        "example": "2026-03-25"
+                        "example": "2026-03-25T15:51:00"
                     },
                     "claimDate": {
                         "type": "string",
@@ -1621,7 +1621,7 @@
                                     "claimAmount": 7500,
                                     "claimAmountCurrencyCode": "UZS",
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
-                                    "claimChangeDate": "2026-06-21",
+                                    "claimChangeDate": "2026-06-21T15:51:00",
                                     "claimDate": "2026-06-20",
                                     "claimIsLife": false,
                                     "claimNumber": "0000001111",
@@ -1730,7 +1730,7 @@
                                     "claimAmount": 7500,
                                     "claimAmountCurrencyCode": "UZS",
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
-                                    "claimChangeDate": "2026-06-21",
+                                    "claimChangeDate": "2026-06-21T15:51:00",
                                     "claimDate": "2026-06-20",
                                     "claimIsLife": false,
                                     "claimNumber": "0000001111",
