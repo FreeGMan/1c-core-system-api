@@ -214,9 +214,9 @@
                     },
                     "agreementDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата заключения договора",
-                        "example": "2026-03-18"
+                        "example": "2026-03-18T12:30:00"
                     },
                     "agreementId": {
                         "type": "string",
@@ -242,9 +242,9 @@
                     },
                     "cancelDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата аннулирования полиса",
-                        "example": "2028-06-28"
+                        "example": "2028-06-28T12:00:00"
                     },
                     "clientId": {
                         "type": "string",
@@ -324,9 +324,9 @@
                     },
                     "policyDeliveryDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата выдачи полиса (обычно равен agreementDate)",
-                        "example": "2026-03-18"
+                        "example": "2026-03-18T12:30:00"
                     },
                     "policyEndDate": {
                         "type": "string",
@@ -344,7 +344,7 @@
                         "format": "date-time",
                         "nullable": true,
                         "description": "Дата последнего изменения",
-                        "example": null
+                        "example": "2026-03-18T12:30:00"
                     },
                     "policyLender": {
                         "type": "string",
@@ -431,9 +431,9 @@
                     },
                     "agreementDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата заключения договора",
-                        "example": "2026-03-18",
+                        "example": "2026-03-18T12:30:00",
                         "nullable": true
                     },
                     "agreementNumber": {
@@ -454,9 +454,9 @@
                     },
                     "policyDeliveryDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата выдачи полиса (обычно равен agreementDate)",
-                        "example": "2026-03-18",
+                        "example": "2026-03-18T12:30:00",
                         "nullable": true
                     },
                     "policyEndDate": {
@@ -496,9 +496,9 @@
                     },
                     "policyStatusChangeDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата изменения статуса полиса на текущий",
-                        "example": "2026-03-18"
+                        "example": "2026-03-18T12:30:00"
                     },
                     "premiumAmount": {
                         "type": "number",
@@ -541,9 +541,9 @@
                     },
                     "agreementDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата заключения договора",
-                        "example": "2026-03-18",
+                        "example": "2026-03-18T12:30:00",
                         "nullable": true
                     },
                     "agreementNumber": {
@@ -581,9 +581,9 @@
                     },
                     "claimDate": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Дата возникновения претензии",
-                        "example": "2026-03-18"
+                        "example": "2026-03-18T12:30:00"
                     },
                     "claimIsLife": {
                         "type": "boolean",
@@ -1121,7 +1121,7 @@
                                     "agentLegalTypeId": null,
                                     "agentName": null,
                                     "agentPinfl": null,
-                                    "agreementDate": "2026-03-18",
+                                    "agreementDate": "2026-03-18T12:30:00",
                                     "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
                                     "agreementNumber": "PA/001/001/0000000499/26/04/1",
                                     "branchCode": null,
@@ -1140,7 +1140,7 @@
                                     "paidAmountCurrencyCode": null,
                                     "paidFromClientAccount": null,
                                     "paymentMethodId": 1,
-                                    "policyDeliveryDate": "2026-03-18",
+                                    "policyDeliveryDate": "2026-03-18T12:30:00",
                                     "policyEndDate": "2028-06-28",
                                     "policyLastModifiedDate": null,
                                     "policyLender": "Uzum Nasiya",
@@ -1336,7 +1336,7 @@
                                     "insuranceViewName": "ICL Insurance",
                                     "policyId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
                                     "policyStatus": "Completed",
-                                    "policyStatusChangeDate": "2026-04-29",
+                                    "policyStatusChangeDate": "2026-04-29T12:30:00",
                                     "refundAmount": 20000000,
                                     "refundAmountCurrencyCode": "UZS"
                                 },
@@ -1437,7 +1437,7 @@
                                     "insuranceViewName": "ICL Insurance",
                                     "policyId": "19a7f4b0-2d93-4f65-976d-bfff88fb9073",
                                     "policyStatus": "Completed",
-                                    "policyStatusChangeDate": "2026-04-29",
+                                    "policyStatusChangeDate": "2026-04-29T12:30:00",
                                     "refundAmount": 20000000,
                                     "refundNDS": 20000,
                                     "refundAmountCurrencyCode": "UZS"
@@ -1530,7 +1530,7 @@
                                 "policy": {
                                     "id": "25fede4b-84e3-474b-8b31-ae529584426f",
                                     "policyStatus": "Completed",
-                                    "policyStatusChangeDate": "2026-03-18"
+                                    "policyStatusChangeDate": "2026-03-18T12:30:00"
                                 },
                                 "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
                             }
@@ -1628,11 +1628,11 @@
                                 "policy": {
                                     "id": "25fede4b-84e3-474b-8b31-ae529584426f",
                                     "agreementId": "25fede4b-84e3-474b-8b31-ae529584426f",
-                                    "agreementDate": "2026-03-18",
+                                    "agreementDate": "2026-03-18T12:30:00",
                                     "agreementNumber": "PA/001/001/0000000499/26/04/1",
                                     "insuredAmount": 2000000,
                                     "insuredAmountCurrencyCode": "UZS",
-                                    "policyDeliveryDate": "2026-03-18",
+                                    "policyDeliveryDate": "2026-03-18T12:30:00",
                                     "policyEndDate": "2028-06-28",
                                     "policyLastModifiedDate": null,
                                     "policyLender": "Uzum Nasiya",
@@ -1731,7 +1731,7 @@
                                 "policy": {
                                     "id": "25fede4b-84e3-474b-8b31-ae529584426f",
                                     "policyStatus": "Cancelled",
-                                    "policyStatusChangeDate": "2026-03-18"
+                                    "policyStatusChangeDate": "2026-03-18T12:30:00"
                                 },
                                 "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
                             }
@@ -1830,12 +1830,12 @@
                                     "id": "6c8b3407-26c0-5060-8f46-962c47ea10e6",
                                     "agreementId": "6c8b3407-26c0-4860-8f46-962c47ea10e6",
                                     "agreementNumber": "PA/001/001/0000008823/26/06/1",
-                                    "agreementDate": "2026-06-05",
+                                    "agreementDate": "2026-06-05T12:00:00",
                                     "claimAmount": 7500,
                                     "claimAmountCurrencyCode": "UZS",
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
                                     "claimChangeDate": "2026-06-21T15:51:00",
-                                    "claimDate": "2026-06-20",
+                                    "claimDate": "2026-06-20T12:00:00",
                                     "claimIsLife": false,
                                     "claimNumber": "0000001111",
                                     "claimStatus": "Delayed",
@@ -1939,12 +1939,12 @@
                                     "id": "6c8b3407-26c0-5060-8f46-962c47ea10e6",
                                     "agreementId": "6c8b3407-26c0-4860-8f46-962c47ea10e6",
                                     "agreementNumber": "PA/001/001/0000008823/26/06/1",
-                                    "agreementDate": "2026-06-05",
+                                    "agreementDate": "2026-06-05T12:00:00",
                                     "claimAmount": 7500,
                                     "claimAmountCurrencyCode": "UZS",
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
                                     "claimChangeDate": "2026-06-21T15:51:00",
-                                    "claimDate": "2026-06-20",
+                                    "claimDate": "2026-06-20T12:00:00",
                                     "claimIsLife": false,
                                     "claimNumber": "0000001111",
                                     "claimStatus": "Approved",
