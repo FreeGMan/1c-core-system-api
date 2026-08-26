@@ -1114,9 +1114,7 @@
                                                     "policyStatus",
                                                     "policyStatusChangeDate",
                                                     "refundAmount",
-                                                    "refundAmountCurrencyCode",
-                                                    "refundAgentAmount",
-                                                    "refundAgentAmountCurrencyCode"
+                                                    "refundAmountCurrencyCode"
                                                 ]
                                             }
                                         ]
@@ -1137,9 +1135,7 @@
                                     "policyStatus": "Completed",
                                     "policyStatusChangeDate": "2026-04-29",
                                     "refundAmount": 20000000,
-                                    "refundAmountCurrencyCode": "UZS",
-                                    "refundAgentAmount": 200000,
-                                    "refundAgentAmountCurrencyCode": "UZS"
+                                    "refundAmountCurrencyCode": "UZS"
                                 },
                                 "transactionId": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
                             }
