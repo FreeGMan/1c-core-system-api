@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "1c-core-system-api",
-        "version": "0.9.12",
+        "version": "0.9.15",
         "contact": {}
     },
     "servers": [
@@ -36,6 +36,109 @@
             }
         },
         "schemas": {
+            "AgentRequest": {
+                "type": "object",
+                "description": "Объект, содержащий информацию по агенту",
+                "required": [
+                    "id",
+                    "agentAgreementDate",
+                    "agentAgreementId",
+                    "agentAgreementNumber",
+                    "agentInn",
+                    "agentLegalTypeId",
+                    "agentName"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор агента",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agentAgreementDate": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true,
+                        "description": "Дата договора с агентом",
+                        "example": "2026-03-25"
+                    },
+                    "agentAgreementId": {
+                        "type": "string",
+                        "description": "Внутренний идентификатор договора с агентом",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "agentAgreementNumber": {
+                        "type": "string",
+                        "description": "Номер договора с агентом",
+                        "example": "AG-0000000499-26"
+                    },
+                    "agentCommissionPlan": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "percents": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "description": "Ставка комиссии",
+                                    "example": 10.5
+                                },
+                                "startDate": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Дата начала действия ставки комиссии",
+                                    "example": "2026-03-25T00:00:00"
+                                },
+                                "endDate": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Дата окончания действия ставки комиссии",
+                                    "example": "2026-06-30T23:59:59",
+                                    "nullable": true
+                                }
+                            }
+                        },
+                        "description": "Массив ставок комисиий агента",
+                        "example": [
+                            {
+                                "percents": 10.5,
+                                "startDate": "2026-03-25T00:00:00",
+                                "endDate": "2026-06-30T23:59:59"
+                            },
+                            {
+                                "percents": 25.0,
+                                "startDate": "2026-07-1T00:00:00",
+                                "endDate": null
+                            }
+                        ]
+                    },
+                    "agentInn": {
+                        "type": "string",
+                        "description": "ИНН агента",
+                        "example": "1234567890"
+                    },
+                    "agentLegalTypeId": {
+                        "type": "number",
+                        "description": "Тип лица агента (ЮЛ - 1, ФЛ - 3)",
+                        "example": 1
+                    },
+                    "agentName": {
+                        "type": "string",
+                        "description": "Наименование агента",
+                        "example": "ООО Пример Агента"
+                    },
+                    "agentPinfl": {
+                        "type": "string",
+                        "description": "ПИНФЛ агента",
+                        "example": "1234567890"
+                    },
+                    "agentRegistrationDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Дата регистрации агента",
+                        "example": "2026-03-18"
+                    }
+                }
+            },
             "AgreementRequest": {
                 "type": "object",
                 "description": "Объект, содержащий всю информацию по договору с клиентом",
@@ -94,8 +197,8 @@
                     "agentLegalTypeId": {
                         "type": "number",
                         "nullable": true,
-                        "description": "Тип лица агента (ФЛ, ЮЛ, ИП)",
-                        "example": null
+                        "description": "Тип лица агента (ЮЛ - 1, ФЛ - 3)",
+                        "example": 1
                     },
                     "agentName": {
                         "type": "string",
@@ -840,6 +943,106 @@
                     },
                     "500": {
                         "$ref": "#/components/responses/InternalServerError"
+                    }
+                }
+            }
+        },
+        "/agents/add": {
+            "post": {
+                "tags": [
+                    "Agents"
+                ],
+                "summary": "Добавление / Изменение агента",
+                "description": "",
+                "operationId": "AgentsAdd",
+                "requestBody": {
+                    "description": "Данные для создания или изменения агента",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "agent",
+                                    "transactionId"
+                                ],
+                                "properties": {
+                                    "agent": {
+                                        "allOf":[
+                                            {"$ref": "#/components/schemas/AgentRequest"}
+                                        ]   
+                                    },
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "Уникальный идентификатор транзакции внешней системы для идемпотентности",
+                                        "example": "cc2f2e5c-d7d4-47ac-9f55-43407871869b"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "transactionId": "70f9ff41-5f59-42b7-9671-52af50a7a35d",
+                                "agent": {
+                                    "id": "19a7f4b0-2d55-4f65-976d-bfff88fb9073",
+                                    "agentAgreementDate": "2026-04-25",
+                                    "agentAgreementId": "88fb9073-5f59-42b7-9671-52af50a7a05d",
+                                    "agentAgreementNumber": "AG-01-00001",
+                                    "agentCommissionPlan": [
+                                        {
+                                            "percents": 15.5,
+                                            "startDate": "2026-01-01T00:00:00",
+                                            "endDate": "2026-05-31T23:59:59"
+                                        },
+                                        {
+                                            "percents": 25,
+                                            "startDate": "2026-05-01T00:00:00",
+                                            "endDate": null
+                                        }
+                                    ],
+                                    "agentInn": "310983085",
+                                    "agentLegalTypeId": 1,
+                                    "agentName": "ООО Пример Агент",
+                                    "agentPinfl": null,
+                                    "agentRegistrationDate": "2020-01-12"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное выполнение запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                },
+                                "example": {
+                                    "operationResult": {
+                                        "errorMessage": "Успешно сформирована/обновлена претензия: 0000001111",
+                                        "result": 0
+                                    },
+                                    "id": "25fede4b-84e3-474b-ffff-ae529584426f"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ProcessedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/MissingMethod"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/IdempotencyError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/DataConsistencyError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    },
+                    "501": {
+                        "$ref": "#/components/responses/NotImplementedMethod"
                     }
                 }
             }
@@ -1958,6 +2161,10 @@
         {
             "name": "Common",
             "description": "Обшие системные методы"
+        },
+        {
+            "name": "Agents",
+            "description": "Методы для работы с агентами."
         },
         {
             "name": "Agreements",
