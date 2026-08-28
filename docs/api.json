@@ -1384,14 +1384,14 @@
                 }
             }
         },
-        "/agreements/refundFull": {
+        "/agreements/refundForce": {
             "post": {
                 "tags": [
                     "Agreements"
                 ],
                 "summary": "Расторжение с полныйм возвратом страховой премии",
-                "description": "Вызывается после расторжения или завершения договора, если клиент запросил возврат полной суммы",
-                "operationId": "AgreementsRefundFull",
+                "description": "Вызывается если клиент запросил возврат полной суммы",
+                "operationId": "AgreementsRefundForce",
                 "requestBody": {
                     "description": "Данные для полного возврата при расторжении",
                     "required": true,
