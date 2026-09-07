@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "1c-core-system-api",
-        "version": "0.9.15",
+        "version": "0.9.16",
         "contact": {}
     },
     "servers": [
@@ -552,6 +552,33 @@
                         "example": "PA/001/001/0000000499/26/04/1",
                         "nullable": true
                     },
+                    "beneficiaryId": {
+                        "type": "string",
+                        "description": "Уникальный ID выгодоприобретателя претензии (совпадает с claimBeneficiaryId)",
+                        "example": "25fede4b-84e3-474b-8b31-ae529584426f"
+                    },
+                    "beneficiaryInn": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ИНН выгодоприобретателя",
+                        "example": "12345678"
+                    },
+                    "beneficiaryLegalType": {
+                        "type": "number",
+                        "description": "Тип лица выгодоприобретателя (1 - юрлицо (обязателен ИНН), 3 - физлицо (обязателен ПИНФЛ))",
+                        "example": 1
+                    },
+                    "beneficiaryName": {
+                        "type": "string",
+                        "description": "ФИО или Наименование выгодоприобретателя",
+                        "example": "Тестовый Бенефициар"
+                    },
+                    "beneficiaryPinfl": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "ПИНФЛ выгодоприобретателя",
+                        "example": "12345678"
+                    },
                     "claimAmount": {
                         "type": "number",
                         "description": "Сумма претензии",
@@ -564,7 +591,7 @@
                     },
                     "claimBeneficiaryId": {
                         "type": "string",
-                        "description": "Уникальный ID выгодоприобретателя претензии",
+                        "description": "Уникальный ID выгодоприобретателя претензии (совпадает с beneficiaryId)",
                         "example": "25fede4b-84e3-474b-8b31-ae529584426f"
                     },
                     "policyNumber": {
@@ -1831,6 +1858,10 @@
                                     "agreementId": "6c8b3407-26c0-4860-8f46-962c47ea10e6",
                                     "agreementNumber": "PA/001/001/0000008823/26/06/1",
                                     "agreementDate": "2026-06-05T12:00:00",
+                                    "beneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
+                                    "beneficiaryLegalType": 1,
+                                    "beneficiaryName": "Тестовый Бенефициар",
+                                    "beneficiaryInn": "265020862",
                                     "claimAmount": 7500,
                                     "claimAmountCurrencyCode": "UZS",
                                     "claimBeneficiaryId": "1848b16e-a22b-4729-bb8f-d529ebbac7bb",
